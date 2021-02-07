@@ -1,0 +1,306 @@
+:root {
+    --max-width: 1366px;
+    --min-padding: 10px;
+    --base-padding: 20px;
+    --medium-orange: #FFB430;
+    --medium-blue: #3F5873;
+    --gap: 40px;
+    --min-input-w: 144px;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    background: #F2F2F2;
+    font-family: sans-serif;
+    font-size: 1.125rem;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto auto;
+    grid-gap: var(--gap);
+    justify-items: center;
+}
+
+.item-1 {
+    justify-self: normal;
+}
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    justify-content: center;
+    /* align-items: center; */
+}
+
+.flex-child {
+    display: flex;
+    /* justify-content: center; */
+    flex-direction: column;
+    max-width: calc(var(--max-width)/2);
+    margin: var(--gap);
+}
+
+h2 {
+    margin: 0;
+}
+
+li {
+    padding: var(--min-padding) 0 var(--min-padding) 0;
+}
+
+li:last-child {
+    padding-bottom: 0;
+}
+
+fieldset {
+    padding: 0 0 20px;
+    border: 0;
+    margin: 0;
+}
+
+button {
+    color: white;
+    background-color: #ffb124;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button[type="submit"]:disabled {
+    background: gray;
+}
+
+.reset-btn {
+    margin-left: var(--min-padding);
+    background: #BFAD71;
+}
+
+/*Style for anchor button*/
+.button.backBtn {
+    padding: 4px 8px 4px 8px;
+    font-size: 1.2rem;
+    color: white;
+    background-color: var(--medium-blue);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 77px;
+    text-decoration: none;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.backBtn-container {
+    text-align: center;
+    margin-top: var(--min-padding);
+}
+
+/****/
+
+input {
+    font-size: 1rem;
+}
+
+input.barcode-input {
+    width: var(--min-input-w);
+    text-align: center;
+}
+
+input.res-detail {
+    width: calc(var(--min-input-w)/2);
+    visibility: hidden;
+    text-align: center;
+}
+
+input#reservation-search {
+    height: 1.3rem;
+    margin-right: 10px;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+/*Scrollbar for menu, webkit*/
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+
+/* handle */
+::-webkit-scrollbar-thumb {
+    background: gray;
+    border-radius: 10px;
+}
+
+/****/
+
+.center {
+    text-align: center;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.emphasize {
+    color: var(--medium-orange);
+}
+
+.logo-container {
+    background: white;
+}
+
+.title {
+    margin: 0;
+    padding: var(--min-padding) 0 var(--min-padding);
+    background: white;
+    border-top: 2px solid;
+    border-bottom: 2px solid;
+    color: #383838;
+    text-align: center;
+}
+
+.my-reservations {
+    width: 450px;
+}
+
+.my-reservations_form button {
+    padding: 4px 8px 4px 8px;
+    font-size: 1.2rem;
+}
+
+.my-reservations_search {
+    text-align: center;
+    padding: var(--base-padding);
+}
+
+ul.names {
+    padding-left: 18px;
+}
+
+.title-container {
+    padding: var(--min-padding);
+    color: white;
+    background: var(--medium-blue);
+    text-align: center;
+}
+
+.error-container {
+    padding: var(--min-padding);
+    color: white;
+    background: #a83232;
+    text-align: center;
+}
+
+.content-container {
+    padding: var(--min-padding);
+    box-shadow: 0px 1px 3px 0px;
+    background: white;
+}
+
+/*footer */
+
+.footer {
+    padding-bottom: 40px;
+}
+
+/*Checkboxes*/
+
+/* Customize the label (the container) */
+
+.boolInputCntnr {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    /*can text be selected by user*/
+}
+
+/* Hide the browser's default checkbox */
+.boolInputCntnr input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    top: -6px;
+    left: 256px;
+    height: 35px;
+    width: 35px;
+    border-radius: 2px;
+    border: 1px solid #808080;
+    background-color: white;
+}
+
+.checkmark.selected {
+    box-shadow: 0px 0px 2px 2px;
+}
+
+/* When the checkbox is checked, add a new background */
+.boolInputCntnr input:checked~.checkmark {
+    background-color: var(--medium-orange);
+}
+
+/* When the checkbox is disabled, not checked, add a new background */
+.boolInputCntnr input:disabled~.checkmark {
+    opacity: 0;
+}
+
+/* When the checkbox is disabled and checked, add a new background */
+.boolInputCntnr input:checked:disabled~.checkmark {
+    opacity: 1;
+}
+
+/* On checkbox hover, add a new background */
+.boolInputCntnr input:hover~.checkmark {
+    background-color: #FFC581;
+}
+
+/* Show the checkmark when checked */
+.boolInputCntnr input:checked~.checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.boolInputCntnr .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
