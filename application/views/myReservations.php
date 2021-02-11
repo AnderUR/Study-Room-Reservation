@@ -13,16 +13,16 @@
                 <ul>
                     <li><span class="bold">Reserved for</span>:
                         <ul class="names">
-                            <li><?= $res['username'] ?></li>
-                            <li><?= $res['username2'] ?></li>
-                            <li><?= $res['username3'] ?></li>
+                            <li><?= $res['patron_barcode'] ?></li>
+                            <li><?= $res['patron_barcode_2'] ?></li>
+                            <li><?= $res['patron_barcode_3'] ?></li>
                         </ul>
                     </li>
                     <li><span class="bold">When</span></span>: <?= date('m/d/Y H:i', strtotime($res['start'])) . " - " . date('H:i', strtotime($res['end'])) ?></li>
-                    <li><span class="bold">Room</span>: Library - <?= $res['roomname'] ?></li>
+                    <li><span class="bold">Room</span>: Library - <?= $res['name'] ?></li>
                     <br>
                     <label class="boolInputCntnr">
-                        Cancel reservation: <input type="checkbox" name="resID[]" value=<?=$res['reservationid']?> />
+                        Cancel reservation: <input type="checkbox" name="resID[]" value=<?=$res['Id']?> />
                         <span class="checkmark"></span>
                     </label>
                 </ul>

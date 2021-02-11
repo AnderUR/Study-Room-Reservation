@@ -85,7 +85,7 @@ class Reservation_Utility
         $roomsReserveStatus = array();
         $notReserved = '0';
         foreach ($data['reservationsSchedule']['rooms'] as $room) {
-            $roomsReserveStatus[$room['roomid']] = $notReserved;
+            $roomsReserveStatus[$room['barcode']] = $notReserved;
         }
 
         $data['reservationsSchedule']['reservations']['hours'] = array();
@@ -125,7 +125,7 @@ class Reservation_Utility
                 $columnKey = array_search($resStart->format('H:i'), $column);
                 if ($columnKey !== false) {
                     //set the room that is reserved, ie. to 1
-                    $data['reservationsSchedule']['reservations']['hours'][$columnKey]['isReserved'][$res['roomid']] = '1';
+                    $data['reservationsSchedule']['reservations']['hours'][$columnKey]['isReserved'][$res['room_barcode']] = '1';
                 }
                 $resStart->add(new DateInterval('PT' . MINUTE_INCREMENT . 'M'));
             }

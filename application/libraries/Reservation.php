@@ -41,9 +41,9 @@ class Reservation
     /*Getters*/
     private function GetReservationById(int $resId)
     {
-        $query = $this->me->db->select('reservationid,roomid,start,end,username,username2,username3')
-            ->where('reservationid =', $resId)
-            ->get('openroom.reservations');
+        $query = $this->me->db->select('Id,room_barcode,start,end,patron_barcode,patron_barcode_2,patron_barcode_3')
+            ->where('Id =', $resId)
+            ->get('room_reservation.reservation');
         $message = "Sorry, there was a problem getting the reservation. 
             If you were submitting one, it likely succeeded. Enter your barcode in Manage My Reservations
             to find it, or ask library staff for help.";
@@ -52,59 +52,59 @@ class Reservation
 
     private function GetReservationsInRange($dateStart, $dateEnd)
     {
-        $query = $this->me->db->select('roomid,start,end')
+        $query = $this->me->db->select('room_barcode,start,end')
             ->where('start >=', $dateStart)
             ->where('start <=', $dateEnd)
-            ->order_by('start ASC, roomid ASC')
-            ->get('openroom.reservations');
+            ->order_by('start ASC, room_barcode ASC')
+            ->get('room_reservation.reservation');
         return $this->checkQryResult($query);
     }
 
     private function GetResForBarcodeInRange($barcode, $dateStart, $dateEnd)
     {
-        $query = $this->me->db->select('reservationid,roomid,start,end,username,username2,username3')
+        $query = $this->me->db->select('Id,room_barcode,start,end,patron_barcode,patron_barcode_2,patron_barcode_3')
             ->where('start >=', $dateStart)
             ->where('start <=', $dateEnd)
-            ->where('(username =' . $barcode . ' OR username2 =' . $barcode . ' OR username3 =' . $barcode . ')')
-            ->order_by('start ASC, roomid ASC')
-            ->get('openroom.reservations');
+            ->where('(patron_barcode =' . $barcode . ' OR patron_barcode_2 =' . $barcode . ' OR patron_barcode_3 =' . $barcode . ')')
+            ->order_by('start ASC, room_barcode ASC')
+            ->get('room_reservation.reservation');
         return $this->checkQryResult($query);
     }
 
     private function GetReservationByDate(string $date)
     {
-        $query = $this->me->db->select('roomid,start,end')
+        $query = $this->me->db->select('room_barcode,start,end')
             ->like('start', $date)
-            ->order_by('start ASC, roomid ASC')
-            ->get('openroom.reservations');
+            ->order_by('start ASC, room_barcode ASC')
+            ->get('room_reservation.reservation');
         return $this->checkQryResult($query);
     }
 
-    private function GetRoomReservedByDate(string $date, int $roomid)
+    private function GetRoomReservedByDate(string $date, int $roomBarcode)
     {
-        $query = $this->me->db->select('reservationid,roomid,start,end,username,username2,username3')
-            ->where('roomid', $roomid)
+        $query = $this->me->db->select('Id,room_barcode,start,end,patron_barcode,patron_barcode_2,patron_barcode_3')
+            ->where('room_barcode', $roomBarcode)
             ->where('start', $date)
-            ->get('openroom.reservations');
+            ->get('room_reservation.reservation');
         return $this->checkQryResult($query);
     }
 
     private function GetReservationsByBarcode(string $barcode)
     {
-        $query = $this->me->db->select('reservationid,roomid,start,end,username,username2,username3')
-            ->where('username =', $barcode)
-            ->or_where('username2 =', $barcode)
-            ->or_where('username3 =', $barcode)
-            ->get('openroom.reservations');
+        $query = $this->me->db->select('Id,room_barcode,start,end,patron_barcode,patron_barcode_2,patron_barcode_3')
+            ->where('patron_barcode =', $barcode)
+            ->or_where('patron_barcode_2 =', $barcode)
+            ->or_where('patron_barcode_3 =', $barcode)
+            ->get('room_reservation.reservation');
         return $this->checkQryResult($query);
     }
 
     private function GetResForBarcodesForDate(string $date, array $barcodes)
     {
-        $query = $this->me->db->select('roomid,start,end')
+        $query = $this->me->db->select('room_barcode,start,end')
             ->like('start', $date)
-            ->where('(username =' . $barcodes[0] . ' OR username2 =' . $barcodes[1] . ' OR username3 =' . $barcodes[2] . ')')
-            ->get('openroom.reservations');
+            ->where('(patron_barcode =' . $barcodes[0] . ' OR patron_barcode_2 =' . $barcodes[1] . ' OR patron_barcode_3 =' . $barcodes[2] . ')')
+            ->get('room_reservation.reservation');
         return $this->checkQryResult($query);
     }
 
@@ -112,7 +112,7 @@ class Reservation
     private function Insert(array $resData)
     {
         try {
-            if (!$this->me->db->insert('openroom.reservations', $resData)) {
+            if (!$this->me->db->insert('room_reservation.reservation', $resData)) {
                 throw new CustomException();
             } else {
                 return $this->me->db->insert_id();
@@ -126,8 +126,8 @@ class Reservation
     /*Delete from db*/
     private function Delete(array $resIDs)
     {
-        $query = $this->me->db->where_in('reservationid', $resIDs)
-            ->delete('openroom.reservations');
+        $query = $this->me->db->where_in('Id', $resIDs)
+            ->delete('room_reservation.reservation');
 
         try {
             if (!$query) {
@@ -166,9 +166,9 @@ class Reservation
         return $this->GetResForBarcodesForDate($date, $barcode);
     }
 
-    public function get_roomReservedByDate(string $date, int $roomid)
+    public function get_roomReservedByDate(string $date, int $roomBarcode)
     {
-        return $this->GetRoomReservedByDate($date, $roomid);
+        return $this->GetRoomReservedByDate($date, $roomBarcode);
     }
 
     public function insert_reservation(array $resData)

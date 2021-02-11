@@ -11,7 +11,7 @@ class ProcessDBTransactions
 
     /*Instance variables for db*/
     private $reservationids;
-    private $roomid;
+    private $roomBarcode;
     private $startTimestamp;
     private $endTimestamp;
     private $barcodes;
@@ -26,7 +26,7 @@ class ProcessDBTransactions
         $this->endTime = '00:00';
 
         $this->reservationids = array();
-        $this->roomid = 0;
+        $this->roomBarcode = 0;
         $this->startTimestamp = '0000-00-00 00:00:00';
         $this->endTimestamp = '0000-00-00 00:00:00';
         $this->barcodes = array();
@@ -38,9 +38,9 @@ class ProcessDBTransactions
     {
         $this->reservationids = $resids;
     }
-    public function setRoomid(int $roomid)
+    public function setRoomBarcode(int $roomBarcode)
     {
-        $this->roomid = $roomid;
+        $this->roomBarcode = $roomBarcode;
     }
     public function setStartDate(string $date)
     {
@@ -67,9 +67,9 @@ class ProcessDBTransactions
     {
         return $this->reservationids;
     }
-    public function getRoomid()
+    public function getRoomBarcode()
     {
-        return $this->roomid;
+        return $this->roomBarcode;
     }
     public function getStartDate()
     {
@@ -139,10 +139,10 @@ class ProcessDBTransactions
         try {
             $room = new Room();
             $rooms = $room->get_rooms();
-            foreach ($reservations as $key => $room) {
-                //get the index of the room array that holds the corresponding roomname for given the roomid
-                $i = array_search($room['roomid'], array_column($rooms, 'roomid'));
-                $resWithRoomNames[$key]['roomname'] = $rooms[$i]['roomname'];
+            foreach ($reservations as $key => $reservedRoom) {
+                //get the index of the room array that holds the corresponding roomname for the given roomBarcode
+                $i = array_search($reservedRoom['room_barcode'], array_column($rooms, 'barcode'));
+                $resWithRoomNames[$key]['name'] = ($i != FALSE) ? $rooms[$i]['name'] : "Room not found.";
             }
             return $resWithRoomNames;
         } catch (CustomException $e) {
@@ -157,18 +157,17 @@ class ProcessDBTransactions
             $this->endTimestamp = $this->formatDateTime($this->startDate, $this->endTime);
 
             $canMakeReservation = $this->validateBarcodes() && $this->checkNumBarcodes() &&
-                $this->roomid != 0 && $this->resForDateExists() &&
+                $this->roomBarcode != 0 && $this->resForDateExists() &&
                 $this->barcodeResExistsForDate();
                 
             if ($canMakeReservation) {
                 $resData = array(
                     'start' => $this->startTimestamp,
                     'end' => $this->endTimestamp,
-                    'roomid' => $this->roomid,
-                    'username' => $this->barcodes[0],
-                    'numberingroup' => MAX_NUM_GROUP_ALOWED, //currently not implemented in front end
-                    'username2' => $this->barcodes[1],
-                    'username3' => $this->barcodes[2],
+                    'room_barcode' => $this->roomBarcode,
+                    'patron_barcode' => $this->barcodes[0],
+                    'patron_barcode_2' => $this->barcodes[1],
+                    'patron_barcode_3' => $this->barcodes[2],
                 );
 
                 $reservation = new Reservation();
@@ -220,7 +219,7 @@ class ProcessDBTransactions
     private function resForDateExists()
     {
         $reservation = new Reservation();
-        $reservations = $reservation->get_roomReservedByDate($this->startTimestamp, $this->roomid);
+        $reservations = $reservation->get_roomReservedByDate($this->startTimestamp, $this->roomBarcode);
         if (empty($reservations)) {
             return true;
         } else {

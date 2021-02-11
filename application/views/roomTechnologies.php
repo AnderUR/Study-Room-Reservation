@@ -8,8 +8,8 @@
     <tbody class="tbody">
         <?php foreach($rooms as $room) :?>
         <tr>
-            <td><?=$room['roomname']?></td>
-            <td><?=$room['roomdescription']?></td>
+            <td><?=$room['name']?></td>
+            <td><?=$room['equipment']?></td>
         </tr>
             <?php endforeach; ?>
     </tbody>

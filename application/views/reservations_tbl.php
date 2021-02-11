@@ -8,7 +8,7 @@
                 ?>
             </th>
             <?php foreach ($reservationsSchedule['rooms'] as $room) : ?>
-                <th class="room-header sticky"><?= $room['roomname']?><span style="display: none;"><?= '|'.$room['roomid']?></span></th>
+                <th class="room-header sticky"><?= $room['name']?><span style="display: none;"><?= '|'.$room['barcode']?></span></th>
             <?php endforeach; ?>
         </tr>
     </thead>

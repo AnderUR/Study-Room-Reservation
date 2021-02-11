@@ -32,6 +32,7 @@ class RoomReservation extends CI_Controller
             /*Load the view*/
             $this->web->get_content('reservation_index', $data);
         } else {
+            $data['url'] = base_url();
             $data['error'] = 'Currently, all rooms are closed. Rooms are open from ' .
             ROOM_OPEN_HOUR . ' to ' . ROOM_CLOSE_HOUR . '. Please contact library staff if there is a problem.';
             $this->web->get_content('errorView', $data, 'headerBasic', 'footerBasic');
@@ -77,7 +78,7 @@ class RoomReservation extends CI_Controller
                 $processDBTrans = new ProcessDBTransactions();
 
                 $barcodes = [trim($resPost['barcode1']), trim($resPost['barcode2']), trim($resPost['barcode3'])];
-                $processDBTrans->setRoomid((int)$resPost['roomId']);
+                $processDBTrans->setRoomBarcode((int)$resPost['roomId']);
                 $processDBTrans->setStartDate($resPost['date']);
                 $processDBTrans->setStartTime($resPost['starttime']);
                 $processDBTrans->setEndTime($resPost['endtime']);
